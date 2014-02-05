@@ -1,0 +1,32 @@
+<h1>Listing policies</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Policy excess</th>
+      <th>Breakdown cover</th>
+      <th>Windscreen repair</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @policies.each do |policy| %>
+      <tr>
+        <td><%= policy.policy_excess %></td>
+        <td><%= policy.breakdown_cover %></td>
+        <td><%= policy.windscreen_repair %></td>
+        <td><%= policy.windscreen_cost %></td>
+        <td><%= link_to 'Show', policy %></td>
+        <td><%= link_to 'Edit', edit_policy_path(policy) %></td>
+        <td><%= link_to 'Destroy', policy, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Policy', new_policy_path %>

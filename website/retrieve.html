@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+    <title>Retrieve your insurance information</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="justified-nav.css" rel="stylesheet">
+	  <link href="signin.css" rel="stylesheet">
+
+    <!-- Javascript files -->
+    <script src="jquery.js"></script>
+		<script src="cookie.js"></script>
+		<script src="js_validation.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="masthead">         
+        <ul class="nav nav-justified">
+          <li ><a href="index.html">Home</a></li>
+          <li><a href="customer.html">Insurance Claim</a></li>
+          <li  class="active"><a href="retrieve.html">Retrieve</a></li>
+            
+        </ul>
+      </div>
+
+      <!-- Jumbotron -->
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading">Please input your details</h2>
+        <input type="text" id="testEmail" class="form-control" placeholder="Email address" required autofocus>
+        <input type="text" id="identifier" class="form-control" placeholder="Quotation identifier" required>
+
+       
+      </form>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Retrieve Quote</button>
+
+      <!-- Site footer -->
+      <div class="footer">
+        <p>&copy; dst1 2013</p>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+  	
+  	<script>
+    
+        //The function gets the information from the Rails server
+        function getInformation(link){
+            $.ajax({
+                type: "GET",
+                url: link,
+             
+              
+                dataType: 'json',
+                complete: function(data){  
+                     returnJson(data);
+                    console.log('cookieee '+returnCustomerID(data));
+                    setCookie("person_id",returnCustomerID(data),1);
+                    window.location ="quote.html";
+
+                },
+                error: function(){
+                    alert('The details provided can\'t be found please try again');
+                }
+              
+              });
+           
+        
+        
+        }
+        /*This creates the link that can access the Rails information about quote depending on email and identifier. 
+        It is also calling the request to get the information*/
+      	function retrieveInfo(){
+            var itemEmail = document.getElementById('testEmail').value;
+            var itemIdentifier = document.getElementById('identifier').value;
+            var link='https://localhost:3002/quote/'+itemEmail+'/'+itemIdentifier+'.json';
+
+            getInformation(link);
+            
+
+
+        	
+      	}
+
+    		$( ".btn" ).click(function() {
+    			
+    				var validate = checkEmail();
+    				if (validate) {
+    				  retrieveInfo();
+            }
+    			}); 
+    			 //Function that returns the data from the server
+    	     function returnJson(data){
+            console.log("data is: "+ JSON.stringify(data));
+            
+            return data;
+            
+            
+          }	
+        //Function that returns the customer id from the JSON response
+        function returnCustomerID(data){
+                  
+          var customer_id = data.responseJSON['customer_id'];         
+          return customer_id;
+              
+            }	
+  	</script>
+	
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<h1>Listing claims</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date of incident</th>
+      <th>Value</th>
+      <th>Type of incident</th>
+      <th>Description</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @claims.each do |claim| %>
+      <tr>
+        <td><%= claim.date_of_incident %></td>
+        <td><%= claim.value %></td>
+        <td><%= claim.type_of_incident %></td>
+        <td><%= claim.description %></td>
+        <td><%= link_to 'Show', claim %></td>
+        <td><%= link_to 'Edit', edit_claim_path(claim) %></td>
+        <td><%= link_to 'Destroy', claim, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Claim', new_claim_path %>

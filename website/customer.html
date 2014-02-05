@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta name="description" content="">
+			<meta name="author" content="">
+			<link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+			<title>Insurance details</title>
+
+			<!-- Bootstrap core CSS -->
+			<link href="bootstrap.css" rel="stylesheet">
+			
+			<!-- Custom styles for this template -->
+			<link href="justified-nav.css" rel="stylesheet">
+			<link href="signin.css" rel="stylesheet">
+			<link rel="stylesheet" href="css/datepicker.css">
+
+			<!-- Javascript files <script src="https://code.jquery.com/jquery.js"></script> -->
+			
+			<script src="jquery.js"></script>
+			<script src="cookie.js"></script>
+			<script src="js_validation.js"></script>
+	
+
+	</head>
+
+	<body>
+
+		<div class="container">
+
+			  <div class="masthead">
+				
+					<ul class="nav nav-justified">
+						  <li><a href="index.html">Home</a></li>
+						  <li class="active"><a href="customer.html">Insurance Claim</a></li>
+						  <li><a href="retrieve.html">Retrieve</a></li>
+						  
+					</ul>
+			  </div>
+		  
+			  <form class="form-signin" method="post">
+			  	<!-- Customer starts here -->
+				<h2 class="form-signin-heading">Driver information</h2>
+				
+				<select name="title" class="customer form-control" placeholder="Title" >
+					<option value ="" selected disabled >Title</option>
+					<option value="Mr" >Mr</option>
+					<option value="Mrs">Mrs</option>
+					<option value="Miss">Miss</option>
+					<option value="Ms">Ms</option>
+				</select>
+				<input name="forename" type="text" class="customer form-control" placeholder="Forename" required autofocus>
+				<input name="surname" type="text" class="customer form-control" placeholder="Surname" required>
+				<input name="phone" type="text" class="customer form-control"  id='phone' placeholder="Phone" required>
+				<input name="email" type="text" class="customer form-control"  id='testEmail' placeholder="Email" required>
+				<input name="date_of_birth" type="text" class="customer form-control" id="datepicker" placeholder="Date of Birth" required >
+				<input name="street" type="text" class="customer form-control"  placeholder="Street" required>
+				<input name="city" type="text" class="customer form-control"  placeholder="City" required>
+				<input name="county" type="text" class="customer form-control"  placeholder="County" required>
+				<input name="postcode" type="text" class="customer form-control"  placeholder="Postcode" id='postcode' required>
+				<select name="current_licence" class="customer form-control" placeholder="Current Licence Type" >
+					<option value ="" selected disabled >Current Licence Type</option>
+					<option value="Full" >Full</option>
+					<option value="Provisional">Provisional</option>
+				
+				</select>
+				<input name="licence_period" type="text" class="customer form-control"  placeholder="Licence Period" required>
+				<select name="occupation" class="customer form-control" placeholder="Occupation">
+					<option value ="" selected disabled >Occupation</option>
+					<option value="Civil Engineer" >Civil Engineer</option>
+					<option value="Computer Programmer">Computer Programmer</option>
+					<option value="Dentist" >Dentist</option>
+					<option value="Judge" >Judge</option>
+					<option value="Nurse" >Nurse</option>
+					<option value="Psychologist" >Psychologist</option>
+					<option value="Statistician" >Statistician</option>
+					<option value="Student" >Student</option>
+					<option value="Teacher" >Teacher</option>
+					<option value="Taxi Driver" >Taxi Driver</option>
+					<option value="Translator" >Translator</option>
+					
+				
+				</select>
+				<!-- Vehicle starts here -->
+				<h2 class="form-signin-heading">Vehicle information</h2>
+				<input name="vehicle_reg" type="text" class="vehicle form-control" placeholder="Vehicle Registration" required>
+				<input name="annual_mileage" type="text" class="vehicle form-control" placeholder="Annual Mileage" required>
+				<input name="vehicle_value" type="text" class="vehicle form-control"  placeholder="Vehicle Value" required>
+				<select name="parking_location" class="vehicle form-control" placeholder="Parking Location">
+					<option value ="" selected disabled >Parking Location</option>
+					<option value="Garage" >In Garage</option>
+					<option value="Driveway">On Driveway</option>
+					<option value="Street">On Street</option>
+				
+				</select>
+				<input name="policy_start_date" type="text" class="vehicle form-control" id="policydate" placeholder="Policy Start Date" required >
+
+				<!-- Claim starts here -->
+				<h2 class="form-signin-heading">Claims information</h2>
+				<select onchange="showClaim()" name="title" id="getSel" class="claims form-control" placeholder="Number of claims" >
+					<option value ="" selected disabled >Number of claims</option>
+					<option >0</option>
+					<option >1</option>
+					<option >2</option>
+					<option >3</option>
+					<option >4</option>
+					<option>5</option>
+				</select>
+				<div id = 'theClaim'></div>
+				
+				<!-- Policy starts here -->
+				<h2 class="form-signin-heading">Policy information</h2>
+				<select name="policy_excess" type="text" class="policy form-control" placeholder="Policy Excess">
+					<option value ="" selected disabled >Policy Excess</option>
+					<option value="50" >£50</option>
+					<option value="100" >£100</option>
+					<option value="150">£150</option>
+					<option value="200">£200</option>
+				</select>
+				<select name="breakdown_cover" class="policy form-control" placeholder="Breakdown Cover" >
+					<option value ="" selected disabled >Breakdown Cover</option>
+					<option value="None" >None</option>
+					<option value="Home" >At Home</option>
+					<option value="Roadside">Roadside</option>
+					<option value="European">European</option>
+				
+				</select>
+
+				<select onchange="winRepair()" name="windscreen_repair" id="repair" class="policy form-control" placeholder="Windscreen Repair">
+					<option value ="" selected disabled >Windscreen Repair</option>
+					<option value="true" >Yes</option>
+					<option value="false">No</option>
+				</select>
+				<div id='winR'></div>
+				
+			  </form>
+			  <button class="btn btn-lg btn-primary btn-block" type="submit" >Get your quotation</button>
+			  <div class="footer">
+				<p>&copy; dst1 2013</p>
+			  </div>
+
+		</div>
+
+
+    <!--  core JavaScript
+    ================================================== -->
+<!-- Following scripts call the datepicker widget for all the date fields in the form-->
+		<script src="js/bootstrap-datepicker.js"></script>
+		<script type="text/javascript">
+			$('#datepicker').datepicker({
+				format: "yyyy-mm-dd",
+				changeMonth: true,
+				changeYear: true
+			});
+		</script>
+		
+		<script type="text/javascript">
+			$('#policydate').datepicker({
+				format: "yyyy-mm-dd",
+				changeMonth: true,
+				changeYear: true
+			});
+		</script>
+			
+		<script type="text/javascript">
+			$('#dateIncident').datepicker({
+				format: "dd-mm-yyyy",
+				changeMonth: true,
+				changeYear: true
+			});
+		</script>
+			
+
+		<script>
+			//The function get's the value in a field by the id
+			function getSelected(idd){
+				
+				var selectedValue = document.getElementById(idd).value;
+				return selectedValue;
+			}
+			/*The function will create as many claim fields as needed depending on User input by appending html code. It uses a combination of html an jquery to create the headers and also the IDs that would be sent to the database */
+			function showClaim(){
+			var iddd='getSel';
+				var ss = getSelected(iddd);
+				if (ss==0){
+					$('#theClaim').html('');
+				}
+				else{
+				for (var i=0;i<ss;i++){
+				if (i==0){
+				$('#theClaim').html('<h2 class="form-signin-heading">Claims ' +(i+1)+'</h2><input name="date_of_incident" type="text" class="claim'+(i+1)+' incidentDate form-control" id="incidentDate" placeholder="Date of Incident" required autofocus><input name="value" type="text" class="claim'+(i+1)+' form-control" placeholder="Value of Claim" required><input name="type_of_incident" type="text" class="claim'+(i+1)+' form-control"  placeholder="Type of Incident" required><input name="description" type="text" class="claim'+(i+1)+' form-control" placeholder="Description" required>');
+				}
+				else {
+				$('#theClaim').append('<h2 class="form-signin-heading">Claims ' +(i+1)+'</h2><input name="date_of_incident" type="text" class="claim'+(i+1)+' incidentDate form-control" id="incidentDate" placeholder="Date of Incident" required autofocus><input name="value" type="text" class="claim'+(i+1)+' form-control" placeholder="Value of Claim" required><input name="type_of_incident" type="text" class="claim'+(i+1)+' form-control"  placeholder="Type of Incident" required><input name="description" type="text" class="claim'+(i+1)+' form-control" placeholder="Description" required>');
+				}
+
+
+				}
+				$('.incidentDate').datepicker({
+					format: "dd-mm-yyyy",
+					changeMonth: true,
+					changeYear: true
+			});
+				}
+			}
+
+			//Function takes into consideration the value selected from drop down and creates an extra fied to input the cost when Windscreen Repair is desired
+			function winRepair(){
+			var selectVal = getSelected('repair');
+			if (selectVal == 'true'){
+
+			$('#winR').html('<input name="windscreen_cost" type="text" class="policy form-control"  placeholder="Windscreen Cost" required>');
+			}
+			else 
+			{
+			$('#winR').html('');
+			}
+			}
+		</script>
+
+		<script>
+			/*Function holds all the information and actions that result in populating the Rails Model from each section of the form
+			  It uses an array of objects, each of which have different variables coresponding to the parameters in the Rails tables*/
+			function json() {
+				
+				//creating a new object with {}
+				var form = {};
+				var count = 0;
+				//a child object for the object with all the data that needs to be sent
+				form['customer'] = {};
+				form['vehicle'] = {};
+				form['policy'] = {};
+				form['claim'] = {};
+				form['quote'] = {};
+				
+				//gets all the values for the class customer from the html
+				$('.customer').each(function(){
+					var itemName = this.getAttribute('name');
+					form.customer[itemName]=this.value;
+					   
+				})
+				//gets all the values for the class vehicle from the html
+				$('.vehicle').each(function(){
+					var itemNameV = this.getAttribute('name');
+					form.vehicle[itemNameV]=this.value;
+					   
+				})
+				//gets all the values for the class policy from the html
+				$('.policy').each(function(){
+					var itemNameP = this.getAttribute('name');
+					
+					form.policy[itemNameP]=this.value;
+					   
+				})
+			
+				
+				/* This is the first request to the Rails server that returns data about the Customer parameter: id 
+				and then usses it to send all the other requests to the right link*/
+				$.ajax({
+					type: "POST",
+					url: 'https://localhost:3002/customers.json' ,
+					
+					data: form,
+					success: success(),
+					dataType: 'json',
+					complete: function(data){
+						returnJson(data);
+						sendVehicle(data);
+						sendPolicy(data);
+						sendClaim(count, data);
+						makeQuote(data);
+						
+					}
+			  
+				});
+				/* This function sends the data to the vehicle table after the customer_id is provided from the previosly Ajax request*/
+				function sendVehicle(dataV){
+				form.vehicle['customer_id']=returnCustomerID(dataV);
+				
+					$.ajax({
+						type: "POST",
+						url: 'https://localhost:3002/customers/'+returnCustomerID(dataV)+'/vehicle.json' ,
+						data: form,
+						success: success(),
+						dataType: 'json',
+						complete: function(data){returnJson(data);
+						setCookie("person_id",returnCustomerID(dataV),1);
+						
+					  }
+					});
+					
+				}	
+				/* This function sends the data to the policy table after the customer_id is provided*/
+				function sendPolicy(dataP){
+				form.policy['customer_id']=returnCustomerID(dataP);
+					$.ajax({
+						type: "POST",
+						url: 'https://localhost:3002/customers/'+returnCustomerID(dataP)+'/policy.json' ,
+						data: form,
+						success: success(),
+						dataType: 'json',
+						complete: function(data){returnJson(data);}
+					  
+					});
+				}	
+				
+				/* This function sends the data to the vehicle table after the customer_id is provided. This has been done recursevly 
+				due to the has many relationship between Customer and Claim*/
+				function sendClaim(count, dataC){
+					//gets all the values for the class customer from the html and puts it in an array
+					if(count <= getSelected('getSel')){
+					form['claim'] = {};
+					$('.claim'+count).each(function(){
+						
+						var itemNameC = this.getAttribute('name');
+						form.claim[itemNameC]=this.value;
+						form.claim['customer_id']=returnCustomerID(dataC);
+					});
+					count++;
+					$.ajax({
+						type: "POST",
+						url: 'https://localhost:3002/customers/'+returnCustomerID(dataC)+'/claims.json' ,
+						data: form,
+						success: success(),
+						dataType: 'json',
+						complete: function(data){sendClaim(count, dataC);
+					
+						
+						}
+					  
+					});
+					}
+				}
+				//This function sends the request to create a quote for the newly created Customer
+				function makeQuote(dataQ){
+				form.quote['customer_id']=returnCustomerID(dataQ);
+				$.ajax({
+					type: "POST",
+					url: 'https://localhost:3002/customers/'+returnCustomerID(dataQ)+'/quote.json',
+					
+					data: form,
+					dataType: 'json',
+					complete: function(data){
+						returnJson(data);
+						window.location ="quote.html";
+						
+						
+
+					}
+			  
+				});
+		
+		}
+		}
+
+			//The button calls the above function but validates the code before sending it.
+			$( ".btn" ).click(function() {
+			
+				var validate = checkForm();
+				if (validate) {
+					json();
+				}
+
+			//json();
+
+				 
+			}); 
+			//Returns a message of success when data has been transmitted
+			function success(){
+				console.log("successs");
+			}
+			//The function returns the JSON data from the server
+			function returnJson(data){
+				console.log("data is: "+ JSON.stringify(data));
+				
+				return data;
+				
+			  
+			}
+			//Function that selects from the JSON server response the customer_id 
+			function returnCustomerID(data){
+					  
+				var customer_id = data.responseJSON['id'];
+				
+				return customer_id;
+				
+			}
+
+			
+		</script>
+
+	
+    <!-- Placed at the end of the document so the pages load faster -->
+	</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+    <title>Your insurance quote</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="justified-nav.css" rel="stylesheet">
+	<link href="signin.css" rel="stylesheet">
+
+    <!-- Javascript files -->
+	<script src="cookie.js"></script>
+    <script src="jquery.js"></script>
+	
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="masthead">
+
+        <ul class="nav nav-justified">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="customer.html">Insurance Claim</a></li>
+          <li><a href="retrieve.html">Retrieve</a></li>
+          
+        </ul>
+      </div>
+
+    <!-- Jumbotron -->
+      
+	<div class="jumbotron">
+        <h2>Your car insurance quote is:</h2>		
+		<p id="quote">Insurance Amount:</p>		
+		<p id="identifier">Quote identifier:</p>	
+		<p id="date" style="font-size:0.7em;">Quote created at:</p>	
+        <p style="font-size:0.7em;">Remember your quote identifier for later use</p>
+        
+    </div>
+	  <div class="row">
+        <div class="col-sm-4">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Personal information:</h3>
+            </div>
+            <div class="customer panel-body">
+              <p id='name'>Name:</p>
+			  <p id='phone'>Phone:</p>
+			  <p id='email'>Email:</p>
+			  <p id='dateOfBirth'>Date of birth:</p>
+			  <p id='address'>Address:</p>			  
+			  <p id='currentLicence'>Current Licence:</p>
+			  <p id='licencePeriod'>Licence Period:</p>
+			  <p id='occupation'>Occupation:</p>
+            </div>
+          </div>
+      
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="vehicle panel-title">Vehicle information:</h3>
+            </div>
+            <div class="vehicle panel-body">
+              <p id='reg'>Reg</p>
+			  <p id='mileage'>Mileage</p>
+			  <p id='vehicleValue'>Vehicle Value</p>
+			  <p id='parkingLocation'>Parking Location</p>
+			  <p id='policyStart'>Policy Start</p>
+            </div>
+          </div>
+          
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-info">
+                <div class="panel-heading">
+              <h3 class="claim panel-title">Policy information:</h3>
+            </div>
+            <div class="panel-body">
+              <p id='policyExcess'>Policy Excess</p>
+			  <p id='breakdown'>Breakdown</p>
+			  <p id='windscreen'>Windscreen Repair</p>
+			  <p id='windscreen_cost'></p>
+            </div>
+          </div>         
+        </div>
+      </div>
+
+
+	  <div class="footer">
+	      <p>&copy; dst1 2013</p>
+	  </div>
+
+    </div> 
+
+
+    <!-- core JavaScript
+    ================================================== -->
+	
+	<script>
+		//This results in retriving the data when the page loads
+	    $(document).ready(function(){
+			retrieveInfo();
+		
+		})
+		//the customer ID is retrieved through the cookie
+		var customer_id=getCookie('person_id');
+		//links needed to retrieve all details from database
+		var link1= 'https://localhost:3002/customers/'+customer_id+'.json';
+		var link2 = 'https://localhost:3002/customers/'+customer_id+'/vehicle.json';
+		var link3 =  'https://localhost:3002/customers/'+customer_id+'/quote.json';
+		var link4 = 'https://localhost:3002/customers/'+customer_id+'/policy.json';
+
+		var form = {};
+
+		/* This calls the functions that will retrieve the information for each part of the page by using different links*/
+		function retrieveInfo(){
+			getInformation(link1);
+			getInformation(link2);
+			getInformation(link3);
+			getInformation(link4);
+
+		
+	}
+		//function used to retrieve information from Rails database using ajax
+		function getInformation(link){
+			$.ajax({
+				type: "GET",
+				url: link,
+					
+				dataType: 'json',
+				complete: function(data){
+					returnJson(data);
+					getInfoType(data);						
+
+				}
+				  
+			});
+		
+		
+		}
+		//function that decides which info needs to show on the web page in its different sections 
+		function getInfoType(data){
+	
+			if (data.responseJSON['title'] != null) {
+				getCustomerInfo(data);
+			}
+			else if (data.responseJSON['parking_location'] != null){
+				getVehicleInfo(data);
+			
+			}
+			else if (data.responseJSON['breakdown_cover'] != null){
+				getPolicyInfo(data);
+			}
+			else if (data.responseJSON['identifier'] != null){
+				getQuote(data);
+			}
+		
+	
+	
+	}	
+		//Function that returns the data from the server
+		function returnJson(data){
+
+			console.log("data is: "+ JSON.stringify(data));				
+			return data;
+							  
+			}
+
+
+		/*Functions that posts the data on the Quote page in an user friendly way. It takes each variable of the JSON object and transforms it and adds it to the right div on the page*/
+		function getCustomerInfo(data){
+		
+			document.getElementById('name').innerHTML='<strong>Name:</strong> '+data.responseJSON['title'] + '. ' + data.responseJSON['forename'] + ' ' + data.responseJSON['surname'];
+			document.getElementById('phone').innerHTML='Phone: '+data.responseJSON['phone'];
+			document.getElementById('email').innerHTML='Email: '+data.responseJSON['email'];
+			document.getElementById('dateOfBirth').innerHTML='Date Of Birth: '+returnValue(data.responseJSON['date_of_birth']);
+			document.getElementById('address').innerHTML='Address: '+data.responseJSON['street'] + ' ' + data.responseJSON['city'] + ' ' + data.responseJSON['county']+ ' ' +data.responseJSON['postcode'];
+			document.getElementById('currentLicence').innerHTML='Current Licence: '+returnValue(data.responseJSON['current_licence']);
+			document.getElementById('licencePeriod').innerHTML='Licence period: '+ returnValue(data.responseJSON['licence_period']);
+			document.getElementById('occupation').innerHTML='Occupation: '+ data.responseJSON['occupation'];
+	}
+		function getVehicleInfo(data){
+		
+			document.getElementById('reg').innerHTML='Reg: '+data.responseJSON['vehicle_reg']
+			document.getElementById('mileage').innerHTML='Mileage: '+ returnValue(data.responseJSON['annual_mileage']);
+			document.getElementById('vehicleValue').innerHTML='Vehicle Value: '+returnValue(data.responseJSON['vehicle_value']);
+			document.getElementById('parkingLocation').innerHTML='Parking Location: '+data.responseJSON['parking_location'];
+			document.getElementById('policyStart').innerHTML='Policy Start: '+returnValue(data.responseJSON['policy_start_date']);
+	}
+		function getPolicyInfo(data){
+			
+			document.getElementById('policyExcess').innerHTML='Policy Excess: '+returnValue(data.responseJSON['policy_excess']);
+			document.getElementById('breakdown').innerHTML='Breakdown Cover: '+data.responseJSON['breakdown_cover'];
+			if (returnValue(data.responseJSON['windscreen_repair']) == true){
+				document.getElementById('windscreen').innerHTML='Windscreen Repair: Yes'
+				document.getElementById('windscreen_cost').innerHTML='Windscreen Cost: '+returnValue(data.responseJSON['windscreen_cost']);
+			}
+			else
+				document.getElementById('windscreen').innerHTML='Windscreen Repair: No'
+		}
+
+		function getQuote(data){
+			document.getElementById('quote').innerHTML='Insurance Amount: '+data.responseJSON['amount'];
+			document.getElementById('identifier').innerHTML='Quote identifier: '+data.responseJSON['identifier'];
+			//This will make the data provided by the server look better
+			var d = new Date(data.responseJSON['created_at']);
+			document.getElementById('date').innerHTML='Quote created on: '+d;
+		}
+		//In case there is null data retruned it will show an empty string rather then the word null
+		function returnValue(value){
+			if (value==null){
+				return "";
+			}
+			else 
+				return value;
+
+		}
+
+				
+	</script>
+
+  </body>
+</html>

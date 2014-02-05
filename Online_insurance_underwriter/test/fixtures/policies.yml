@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  policy_excess: 1
+  breakdown_cover: MyString
+  windscreen_repair: false
+
+two:
+  policy_excess: 1
+  breakdown_cover: MyString
+  windscreen_repair: false

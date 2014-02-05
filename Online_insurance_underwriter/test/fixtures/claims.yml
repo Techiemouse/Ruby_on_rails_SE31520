@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date_of_incident: 2013-11-14
+  value: 1
+  type_of_incident: MyString
+  description: MyString
+
+two:
+  date_of_incident: 2013-11-14
+  value: 1
+  type_of_incident: MyString
+  description: MyString
