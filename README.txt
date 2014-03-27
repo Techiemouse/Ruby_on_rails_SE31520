@@ -12,7 +12,6 @@ Using SQLite Manager in the Mozilla Firefox can give you access to the database.
 3. Rails server is using https:// so at first use we need to go to https://localhost:3002 and accept the server as a trsuted one, and continue to the website. This will allow the data to get send through the Online Car Insurance Interface to the Rails underwriter.
 2. Open the browser and access the index.html page from the Website folder. 
 If using Chrome the "file://" url doesn't support cookies so I recommend uploading the website on a server or using Mozilla Firefox 
-The web interface can also be accessed from my own server by going to: http://techiemouse.com/website/
 
 3. Go through the fields and after you press the button a new page will appear.
 
